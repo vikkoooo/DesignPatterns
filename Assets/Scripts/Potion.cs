@@ -1,28 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class Potion : MonoBehaviour
-{
-	private int potion = 10;
-
-	private void Awake()
+	abstract class Potion
 	{
-		Debug.Log(Player.getInstance().health);
+		public abstract string type { get; }
+		public abstract int heal { get; }
+		public abstract int owned { get; set; }
 	}
 
-	void Start()
-    {
-		Heal();   
-		Debug.Log(Player.getInstance().health);
-
-    }
-
-    private void Heal()
-    {
-	    Player.getInstance().health += potion;
-    }
 
 
-}

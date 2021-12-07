@@ -1,48 +1,44 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDFA : MonoBehaviour
+public class PlayerStateMachine : MonoBehaviour
 {
-	private State currentState;
+	public State currentState;
 	private State nextState;
 	
 	void Start()
 	{
-		currentState = State.standing;
+		currentState = State.standing; // Default is, we start as standing.
 	}
 
 	private void Update()
 	{
+		// set state to walking
 		if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
 		{
-			// set state to walking
 			nextState = State.walking;
 		}
-		else if (Input.GetKey(KeyCode.W))
+		// set state to jumping
+		else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space))
 		{
-			// set state to jumping
 			nextState = State.jumping;
 		}
+		// set state to crouching
 		else if (Input.GetKey(KeyCode.S))
 		{
-			// set state to crouching
 			nextState = State.crouching;
 		}
-		else if (Input.GetKey(KeyCode.Space))
+		// set state attacking
+		else if (Input.GetKey(KeyCode.Mouse0))
 		{
-			// set state attacking
 			nextState = State.attacking;
 		}
+		// set state standing
 		else
 		{
-			// set state standing
 			nextState = State.standing;
 		}
 		
 		SetState(nextState);
-		Debug.Log(currentState);
 	}
 
 	public enum State
@@ -60,7 +56,6 @@ public class PlayerDFA : MonoBehaviour
 	    switch(nextState_) 
 	    {
 		    case State.standing:
-			    // code block
 			    currentState = State.standing;
 			    break;
 		    
@@ -79,7 +74,6 @@ public class PlayerDFA : MonoBehaviour
 			    break;
 		    
 		    case State.crouching:
-			    // code block
 			    if (currentState != State.jumping)
 			    {
 				    currentState = State.crouching;
@@ -87,20 +81,17 @@ public class PlayerDFA : MonoBehaviour
 			    break;
 		    
 		    case State.attacking:
-			    // code block
 			    if (currentState == State.walking || currentState == State.standing)
 			    {
 				    currentState = State.attacking;
 			    }
 			    break;
+		    
 		    default:
-			    // code block
 			    Debug.Log("no case found, setting standing");
 			    currentState = State.standing;
 			    break;
 	    }
     }
 
-    
-    
 }
